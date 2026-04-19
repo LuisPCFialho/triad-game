@@ -4,24 +4,38 @@ extends Node2D
 @export var chaser_scene: PackedScene
 @export var shooter_scene: PackedScene
 @export var tank_scene: PackedScene
+@export var boss_scene: PackedScene
 
 @export var arena_min: Vector2 = Vector2(40, 40)
 @export var arena_max: Vector2 = Vector2(1240, 680)
 @export var base_spawn_interval: float = 2.0
 @export var min_spawn_interval: float = 0.35
+@export var boss_time_seconds: float = 480.0
 
 var _spawn_timer: float = 0.0
 var _elapsed: float = 0.0
+var _boss_spawned: bool = false
 
 
 func _process(delta: float) -> void:
 	if not Game.run_active:
 		return
 	_elapsed += delta
+	if not _boss_spawned and _elapsed >= boss_time_seconds and boss_scene != null:
+		_spawn_boss()
+		_boss_spawned = true
+	if _boss_spawned:
+		return  # Stop regular spawning once boss is out
 	_spawn_timer -= delta
 	if _spawn_timer <= 0.0:
 		_spawn_batch()
 		_spawn_timer = _current_interval()
+
+
+func _spawn_boss() -> void:
+	var boss: Node2D = boss_scene.instantiate()
+	boss.global_position = Vector2(640, 100)
+	get_tree().current_scene.add_child(boss)
 
 
 func _current_interval() -> float:

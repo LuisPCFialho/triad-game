@@ -5,11 +5,16 @@ func _ready() -> void:
 	Game.reset_run()
 	if not Signals.game_over.is_connected(_on_game_over):
 		Signals.game_over.connect(_on_game_over)
+	if not Signals.victory.is_connected(_on_victory):
+		Signals.victory.connect(_on_victory)
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("pause"):
-		get_tree().change_scene_to_file("res://scenes/ui/Sanctum.tscn")
+func _on_victory() -> void:
+	Game.run_active = false
+	CurrencyManager.end_run_banking()
+	Game.record_run()
+	await get_tree().create_timer(1.2).timeout
+	get_tree().change_scene_to_file("res://scenes/ui/Victory.tscn")
 
 
 func _on_game_over() -> void:

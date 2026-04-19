@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bmainscene0001"]
+[gd_scene load_steps=10 format=3 uid="uid://bmainscene0001"]
 
 [ext_resource type="Script" path="res://scenes/Main.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://scenes/world/Arena.tscn" id="2_arena"]
@@ -7,7 +7,9 @@
 [ext_resource type="PackedScene" path="res://scenes/enemies/Chaser.tscn" id="5_chaser"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/Shooter.tscn" id="6_shooter"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/Tank.tscn" id="7_tank"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/Boss.tscn" id="9_boss"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="8_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/PauseMenu.tscn" id="10_pause"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_script")
@@ -22,5 +24,8 @@ script = ExtResource("4_spawner")
 chaser_scene = ExtResource("5_chaser")
 shooter_scene = ExtResource("6_shooter")
 tank_scene = ExtResource("7_tank")
+boss_scene = ExtResource("9_boss")
 
 [node name="HUD" parent="." instance=ExtResource("8_hud")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("10_pause")]
