@@ -40,10 +40,6 @@ one_shot = true
 stream = ExtResource("4_shoot_sfx")
 volume_db = -6.0
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(0, 0)
-zoom = Vector2(1, 1)
-
 [connection signal="timeout" from="ShootCooldown" to="." method="_on_shoot_cooldown_timeout"]
 [connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]
 [connection signal="timeout" from="InvulnTimer" to="." method="_on_invuln_timer_timeout"]

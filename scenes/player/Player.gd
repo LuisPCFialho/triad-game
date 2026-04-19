@@ -39,7 +39,6 @@ var dash_timer: float = 0.0
 
 func _ready() -> void:
 	add_to_group("player")
-	$Camera2D.add_to_group("main_camera")
 	_apply_skills()
 	hp = MAX_HP
 	shoot_cooldown.wait_time = shoot_interval

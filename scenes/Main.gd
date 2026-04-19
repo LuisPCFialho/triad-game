@@ -2,6 +2,7 @@ extends Node2D
 
 
 func _ready() -> void:
+	$Camera2D.add_to_group("main_camera")
 	Game.reset_run()
 	if not Signals.game_over.is_connected(_on_game_over):
 		Signals.game_over.connect(_on_game_over)

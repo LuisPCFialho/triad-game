@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://df8yittgoix1t"
-valid=false
+uid="uid://b764o43dvltmn"
+path="res://.godot/imported/logo_lumina.png-ab9119691e5414e20bb33097cd29ebed.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://assets/sprites/ui/logo_lumina.png"
+dest_files=["res://.godot/imported/logo_lumina.png-ab9119691e5414e20bb33097cd29ebed.ctex"]
 
 [params]
 
