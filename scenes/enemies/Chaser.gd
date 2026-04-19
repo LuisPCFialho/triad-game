@@ -6,12 +6,12 @@ var _touch_timer: float = 0.0
 
 func _ready() -> void:
 	super()
-	kind = "chaser"
+	kind = "shadow_blob"
 	max_hp = 20
 	hp = max_hp
 	damage = 10
 	speed = 140.0
-	scrap_reward = 1
+	sparks_reward = 1
 	score_value = 10
 
 

@@ -4,11 +4,11 @@ extends Control
 func _ready() -> void:
 	var t := int(Game.run_time_seconds)
 	$Center/VBox/Stats.text = (
-		"Keeper defeated in %02d:%02d\nKills: %d   Best Streak: %d\nScore: %d\n\n"
-		+ "Earned: +%d Scrap  +%d Fuel  +%d Cores"
+		"Dark Keeper defeated in %02d:%02d!\nShadows banished: %d   Best streak: %d\nScore: %d\n\n"
+		+ "Earned: +%d ✦Sparks  +%d ◈Prisms  +%d ❋Crystals"
 	) % [
 		t / 60, t % 60, Game.enemies_killed, Game.highest_streak, Game.current_score,
-		CurrencyManager.run_scrap, CurrencyManager.run_fuel, CurrencyManager.run_cores,
+		CurrencyManager.run_sparks, CurrencyManager.run_prisms, CurrencyManager.run_crystals,
 	]
 
 

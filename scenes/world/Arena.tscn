@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://barena0000001"]
 
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/floor.png" id="1_floor"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/crystal_floor.png" id="1_floor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h"]
 size = Vector2(1920, 40)

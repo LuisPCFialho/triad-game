@@ -39,6 +39,7 @@ var dash_timer: float = 0.0
 
 func _ready() -> void:
 	add_to_group("player")
+	$Camera2D.add_to_group("main_camera")
 	_apply_skills()
 	hp = MAX_HP
 	shoot_cooldown.wait_time = shoot_interval
@@ -93,8 +94,9 @@ func _shoot() -> void:
 	can_shoot = false
 	shoot_cooldown.start()
 	if shoot_sound:
-		shoot_sound.pitch_scale = randf_range(0.95, 1.05)
+		shoot_sound.pitch_scale = randf_range(0.92, 1.08)
 		shoot_sound.play()
+	_spawn_cast_particles()
 
 
 func _start_dash() -> void:
@@ -106,6 +108,7 @@ func _start_dash() -> void:
 	can_dash = false
 	dash_cooldown.start()
 	invuln_timer.start()
+	_spawn_dash_trail()
 
 
 func take_damage(amount: int) -> void:
@@ -115,6 +118,7 @@ func take_damage(amount: int) -> void:
 	is_invuln = true
 	invuln_timer.start()
 	_flash()
+	ScreenShake.shake(0.45)
 	Signals.player_damaged.emit(amount, hp)
 	if hp <= 0:
 		Signals.player_died.emit()
@@ -124,14 +128,62 @@ func take_damage(amount: int) -> void:
 func heal(amount: int) -> void:
 	hp = min(MAX_HP, hp + amount)
 	Signals.player_healed.emit(amount)
+	_flash_heal()
 
 
 func _flash() -> void:
 	if sprite == null:
 		return
-	sprite.modulate = Color(2.5, 2.5, 2.5)
+	sprite.modulate = Color(3.0, 0.3, 0.3)
 	var tween := create_tween()
-	tween.tween_property(sprite, "modulate", Color.WHITE, 0.15)
+	tween.tween_property(sprite, "modulate", Color.WHITE, 0.18)
+
+
+func _flash_heal() -> void:
+	if sprite == null:
+		return
+	sprite.modulate = Color(0.3, 3.0, 0.6)
+	var tween := create_tween()
+	tween.tween_property(sprite, "modulate", Color.WHITE, 0.25)
+
+
+func _spawn_cast_particles() -> void:
+	var p := CPUParticles2D.new()
+	get_tree().current_scene.add_child(p)
+	p.global_position = muzzle.global_position
+	p.emitting = true
+	p.one_shot = true
+	p.explosiveness = 0.9
+	p.amount = 8
+	p.lifetime = 0.35
+	p.initial_velocity_min = 80.0
+	p.initial_velocity_max = 200.0
+	p.spread = 30.0
+	p.scale_amount_min = 2.0
+	p.scale_amount_max = 4.0
+	p.color = Color(1.0, 0.85, 0.2, 1.0)
+	p.direction = Vector2.RIGHT.rotated(global_rotation)
+	var t := get_tree().create_timer(0.5)
+	t.timeout.connect(p.queue_free)
+
+
+func _spawn_dash_trail() -> void:
+	var p := CPUParticles2D.new()
+	get_tree().current_scene.add_child(p)
+	p.global_position = global_position
+	p.emitting = true
+	p.one_shot = true
+	p.explosiveness = 0.8
+	p.amount = 14
+	p.lifetime = 0.4
+	p.initial_velocity_min = 60.0
+	p.initial_velocity_max = 140.0
+	p.spread = 120.0
+	p.scale_amount_min = 3.0
+	p.scale_amount_max = 6.0
+	p.color = Color(0.3, 0.8, 1.0, 0.9)
+	var t := get_tree().create_timer(0.6)
+	t.timeout.connect(p.queue_free)
 
 
 func _on_shoot_cooldown_timeout() -> void:

@@ -1,15 +1,25 @@
 extends Control
 
-const TREES := ["scrap", "fuel", "cores"]
+const TREES := ["sparks", "prisms", "crystals"]
 const TREE_COLORS := {
-	"scrap": Color(0.85, 0.85, 0.85),
-	"fuel": Color(1.0, 0.7, 0.2),
-	"cores": Color(0.4, 0.9, 0.9),
+	"sparks": Color(0.9, 0.9, 0.9),
+	"prisms": Color(1.0, 0.65, 1.0),
+	"crystals": Color(0.35, 1.0, 0.95),
+}
+const TREE_LABELS := {
+	"sparks": "SPARKS",
+	"prisms": "PRISMS",
+	"crystals": "CRYSTALS",
+}
+const CURRENCY_ICONS := {
+	"sparks": "✦",
+	"prisms": "◈",
+	"crystals": "❋",
 }
 
-@onready var scrap_panel: Container = $Margin/VBox/Trees/ScrapPanel/Nodes
-@onready var fuel_panel: Container = $Margin/VBox/Trees/FuelPanel/Nodes
-@onready var cores_panel: Container = $Margin/VBox/Trees/CoresPanel/Nodes
+@onready var sparks_panel: Container = $Margin/VBox/Trees/SparksPanel/Nodes
+@onready var prisms_panel: Container = $Margin/VBox/Trees/PrismsPanel/Nodes
+@onready var crystals_panel: Container = $Margin/VBox/Trees/CrystalsPanel/Nodes
 @onready var currency_label: Label = $Margin/VBox/Header/Currencies
 @onready var info_label: Label = $Margin/VBox/Footer/Info
 
@@ -17,15 +27,15 @@ const TREE_COLORS := {
 func _ready() -> void:
 	CurrencyManager.currencies_changed.connect(_refresh_currencies)
 	SkillManager.skill_unlocked.connect(_on_unlock)
-	_refresh_currencies(CurrencyManager.scrap, CurrencyManager.fuel, CurrencyManager.cores)
-	_build_tree("scrap", scrap_panel)
-	_build_tree("fuel", fuel_panel)
-	_build_tree("cores", cores_panel)
-	info_label.text = "Select a skill to see details. Gray = locked (prereq missing). Blue = affordable. Green = unlocked."
+	_refresh_currencies(CurrencyManager.sparks, CurrencyManager.prisms, CurrencyManager.crystals)
+	_build_tree("sparks", sparks_panel)
+	_build_tree("prisms", prisms_panel)
+	_build_tree("crystals", crystals_panel)
+	info_label.text = "Hover a skill to preview. Grey = locked. Blue = affordable. Green = unlocked."
 
 
-func _refresh_currencies(s: int, f: int, c: int) -> void:
-	currency_label.text = "SCRAP %d   FUEL %d   CORES %d" % [s, f, c]
+func _refresh_currencies(s: int, p: int, c: int) -> void:
+	currency_label.text = "✦ %d Sparks   ◈ %d Prisms   ❋ %d Crystals" % [s, p, c]
 
 
 func _build_tree(tree_name: String, container: Container) -> void:
@@ -48,9 +58,9 @@ func _skill_label(skill: Dictionary) -> String:
 	var name: String = skill.get("name", "?")
 	var cost: Dictionary = skill.get("cost", {})
 	var cost_s := ""
-	for k in ["scrap", "fuel", "cores"]:
+	for k in ["sparks", "prisms", "crystals"]:
 		if cost.has(k):
-			cost_s += "  %d %s" % [cost[k], k[0].to_upper()]
+			cost_s += "  %d%s" % [cost[k], CURRENCY_ICONS.get(k, k[0].to_upper())]
 	var prefix := "[✓] " if SkillManager.has(id) else ""
 	return "%s%s\n%s" % [prefix, name, cost_s.strip_edges()]
 
@@ -58,18 +68,18 @@ func _skill_label(skill: Dictionary) -> String:
 func _style_button(btn: Button, skill: Dictionary) -> void:
 	var id: String = skill.get("id", "")
 	if SkillManager.has(id):
-		btn.modulate = Color(0.6, 1.0, 0.6)
+		btn.modulate = Color(0.5, 1.0, 0.55)
 	elif SkillManager.can_unlock(id):
-		btn.modulate = Color(0.7, 0.85, 1.0)
+		btn.modulate = Color(0.65, 0.85, 1.0)
 	else:
-		btn.modulate = Color(0.55, 0.55, 0.55)
+		btn.modulate = Color(0.5, 0.5, 0.5)
 
 
 func _show_info(skill: Dictionary) -> void:
 	info_label.text = "%s — %s" % [skill.get("name", "?"), skill.get("desc", "")]
 
 
-func _on_skill_pressed(skill_id: String, tree_name: String) -> void:
+func _on_skill_pressed(skill_id: String, _tree_name: String) -> void:
 	if SkillManager.try_unlock(skill_id):
 		_rebuild_all()
 
@@ -79,9 +89,9 @@ func _on_unlock(_skill_id: String) -> void:
 
 
 func _rebuild_all() -> void:
-	_build_tree("scrap", scrap_panel)
-	_build_tree("fuel", fuel_panel)
-	_build_tree("cores", cores_panel)
+	_build_tree("sparks", sparks_panel)
+	_build_tree("prisms", prisms_panel)
+	_build_tree("crystals", crystals_panel)
 
 
 func _on_start_run_pressed() -> void:

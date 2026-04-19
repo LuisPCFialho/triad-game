@@ -1,17 +1,17 @@
 extends Node
 
-signal currencies_changed(scrap: int, fuel: int, cores: int)
+signal currencies_changed(sparks: int, prisms: int, crystals: int)
 signal currency_earned(type: String, amount: int, at_position: Vector2)
 
 const SAVE_PATH := "user://currencies.json"
 
-var scrap: int = 0
-var fuel: int = 0
-var cores: int = 0
+var sparks: int = 0
+var prisms: int = 0
+var crystals: int = 0
 
-var run_scrap: int = 0
-var run_fuel: int = 0
-var run_cores: int = 0
+var run_sparks: int = 0
+var run_prisms: int = 0
+var run_crystals: int = 0
 
 
 func _ready() -> void:
@@ -19,48 +19,48 @@ func _ready() -> void:
 
 
 func reset_run_earnings() -> void:
-	run_scrap = 0
-	run_fuel = 0
-	run_cores = 0
+	run_sparks = 0
+	run_prisms = 0
+	run_crystals = 0
 
 
 func add(type: String, amount: int, at_position: Vector2 = Vector2.ZERO) -> void:
 	match type:
-		"scrap":
-			scrap += amount
-			run_scrap += amount
-		"fuel":
-			fuel += amount
-			run_fuel += amount
-		"cores":
-			cores += amount
-			run_cores += amount
+		"sparks":
+			sparks += amount
+			run_sparks += amount
+		"prisms":
+			prisms += amount
+			run_prisms += amount
+		"crystals":
+			crystals += amount
+			run_crystals += amount
 		_:
 			push_warning("Unknown currency type: %s" % type)
 			return
 	currency_earned.emit(type, amount, at_position)
-	currencies_changed.emit(scrap, fuel, cores)
+	currencies_changed.emit(sparks, prisms, crystals)
 
 
 func spend(cost: Dictionary) -> bool:
-	var c_scrap: int = int(cost.get("scrap", 0))
-	var c_fuel: int = int(cost.get("fuel", 0))
-	var c_cores: int = int(cost.get("cores", 0))
-	if scrap < c_scrap or fuel < c_fuel or cores < c_cores:
+	var c_sparks: int = int(cost.get("sparks", 0))
+	var c_prisms: int = int(cost.get("prisms", 0))
+	var c_crystals: int = int(cost.get("crystals", 0))
+	if sparks < c_sparks or prisms < c_prisms or crystals < c_crystals:
 		return false
-	scrap -= c_scrap
-	fuel -= c_fuel
-	cores -= c_cores
-	currencies_changed.emit(scrap, fuel, cores)
+	sparks -= c_sparks
+	prisms -= c_prisms
+	crystals -= c_crystals
+	currencies_changed.emit(sparks, prisms, crystals)
 	_save()
 	return true
 
 
 func can_afford(cost: Dictionary) -> bool:
 	return (
-		scrap >= int(cost.get("scrap", 0))
-		and fuel >= int(cost.get("fuel", 0))
-		and cores >= int(cost.get("cores", 0))
+		sparks >= int(cost.get("sparks", 0))
+		and prisms >= int(cost.get("prisms", 0))
+		and crystals >= int(cost.get("crystals", 0))
 	)
 
 
@@ -69,7 +69,7 @@ func end_run_banking() -> void:
 
 
 func _save() -> void:
-	var data := {"scrap": scrap, "fuel": fuel, "cores": cores}
+	var data := {"sparks": sparks, "prisms": prisms, "crystals": crystals}
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file == null:
 		push_error("Cannot open currency save file")
@@ -86,6 +86,6 @@ func _load() -> void:
 	var parsed: Variant = JSON.parse_string(file.get_as_text())
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return
-	scrap = int(parsed.get("scrap", 0))
-	fuel = int(parsed.get("fuel", 0))
-	cores = int(parsed.get("cores", 0))
+	sparks = int(parsed.get("sparks", 0))
+	prisms = int(parsed.get("prisms", 0))
+	crystals = int(parsed.get("crystals", 0))

@@ -18,7 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.08, 0.07, 0.1, 1)
+color = Color(0.06, 0.05, 0.14, 1)
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -43,19 +43,20 @@ theme_override_constants/separation = 24
 [node name="Title" type="Label" parent="Margin/VBox/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1.0, 0.85, 0.3, 1)
 theme_override_font_sizes/font_size = 40
-text = "SANCTUM"
+text = "✦ SANCTUM OF LIGHT"
 
 [node name="Currencies" type="Label" parent="Margin/VBox/Header"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
-text = "SCRAP 0   FUEL 0   CORES 0"
+text = "✦ 0 Sparks   ◈ 0 Prisms   ❋ 0 Crystals"
 vertical_alignment = 1
 
 [node name="StartButton" type="Button" parent="Margin/VBox/Header"]
 custom_minimum_size = Vector2(180, 40)
 layout_mode = 2
-text = "▶ Start Run"
+text = "▶ Enter the Realm"
 
 [node name="MenuButton" type="Button" parent="Margin/VBox/Header"]
 custom_minimum_size = Vector2(140, 40)
@@ -67,59 +68,59 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 16
 
-[node name="ScrapPanel" type="PanelContainer" parent="Margin/VBox/Trees"]
+[node name="SparksPanel" type="PanelContainer" parent="Margin/VBox/Trees"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VB" type="VBoxContainer" parent="Margin/VBox/Trees/ScrapPanel"]
+[node name="VB" type="VBoxContainer" parent="Margin/VBox/Trees/SparksPanel"]
 layout_mode = 2
 
-[node name="Header" type="Label" parent="Margin/VBox/Trees/ScrapPanel/VB"]
+[node name="Header" type="Label" parent="Margin/VBox/Trees/SparksPanel/VB"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "SCRAP"
+text = "✦ SPARKS"
 horizontal_alignment = 1
 
-[node name="Nodes" type="VBoxContainer" parent="Margin/VBox/Trees/ScrapPanel"]
+[node name="Nodes" type="VBoxContainer" parent="Margin/VBox/Trees/SparksPanel"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="FuelPanel" type="PanelContainer" parent="Margin/VBox/Trees"]
+[node name="PrismsPanel" type="PanelContainer" parent="Margin/VBox/Trees"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VB2" type="VBoxContainer" parent="Margin/VBox/Trees/FuelPanel"]
+[node name="VB2" type="VBoxContainer" parent="Margin/VBox/Trees/PrismsPanel"]
 layout_mode = 2
 
-[node name="Header" type="Label" parent="Margin/VBox/Trees/FuelPanel/VB2"]
+[node name="Header" type="Label" parent="Margin/VBox/Trees/PrismsPanel/VB2"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.7, 0.2, 1)
+theme_override_colors/font_color = Color(1, 0.6, 1, 1)
 theme_override_font_sizes/font_size = 24
-text = "FUEL"
+text = "◈ PRISMS"
 horizontal_alignment = 1
 
-[node name="Nodes" type="VBoxContainer" parent="Margin/VBox/Trees/FuelPanel"]
+[node name="Nodes" type="VBoxContainer" parent="Margin/VBox/Trees/PrismsPanel"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="CoresPanel" type="PanelContainer" parent="Margin/VBox/Trees"]
+[node name="CrystalsPanel" type="PanelContainer" parent="Margin/VBox/Trees"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VB3" type="VBoxContainer" parent="Margin/VBox/Trees/CoresPanel"]
+[node name="VB3" type="VBoxContainer" parent="Margin/VBox/Trees/CrystalsPanel"]
 layout_mode = 2
 
-[node name="Header" type="Label" parent="Margin/VBox/Trees/CoresPanel/VB3"]
+[node name="Header" type="Label" parent="Margin/VBox/Trees/CrystalsPanel/VB3"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.4, 0.9, 0.9, 1)
+theme_override_colors/font_color = Color(0.3, 1.0, 0.95, 1)
 theme_override_font_sizes/font_size = 24
-text = "CORES"
+text = "❋ CRYSTALS"
 horizontal_alignment = 1
 
-[node name="Nodes" type="VBoxContainer" parent="Margin/VBox/Trees/CoresPanel"]
+[node name="Nodes" type="VBoxContainer" parent="Margin/VBox/Trees/CrystalsPanel"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
@@ -129,7 +130,7 @@ layout_mode = 2
 [node name="Info" type="Label" parent="Margin/VBox/Footer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.8, 0.8, 0.9, 1)
+theme_override_colors/font_color = Color(0.8, 0.8, 0.95, 1)
 theme_override_font_sizes/font_size = 16
 text = ""
 autowrap_mode = 3

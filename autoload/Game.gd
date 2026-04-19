@@ -2,7 +2,7 @@ extends Node
 
 const SAVE_PATH := "user://savegame.json"
 const MAX_HIGH_SCORES := 10
-const STREAK_MILESTONE := 5  # every 5 kills in streak => +1 Fuel
+const STREAK_MILESTONE := 5  # every 5 kills in streak => +1 Prism
 
 var current_score: int = 0
 var enemies_killed: int = 0
@@ -51,7 +51,7 @@ func register_kill(at_position: Vector2, _kind: String) -> void:
 	kill_streak += 1
 	highest_streak = max(highest_streak, kill_streak)
 	if kill_streak > 0 and kill_streak % STREAK_MILESTONE == 0:
-		CurrencyManager.add("fuel", 1, at_position)
+		CurrencyManager.add("prisms", 1, at_position)
 
 
 func _on_player_damaged(_amount: int, _hp_remaining: int) -> void:

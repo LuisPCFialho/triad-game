@@ -9,12 +9,12 @@ var _shoot_timer: float = 0.0
 
 func _ready() -> void:
 	super()
-	kind = "shooter"
+	kind = "shadow_imp"
 	max_hp = 30
 	hp = max_hp
 	damage = 8
 	speed = 100.0
-	scrap_reward = 2
+	sparks_reward = 2
 	score_value = 20
 	_shoot_timer = randf_range(0.3, shoot_interval)
 

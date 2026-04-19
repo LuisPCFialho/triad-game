@@ -2,9 +2,9 @@ extends CanvasLayer
 
 @onready var hp_bar: ProgressBar = $Panel/HBox/HPBar
 @onready var hp_label: Label = $Panel/HBox/HPBar/HPLabel
-@onready var scrap_label: Label = $Panel/HBox/Currencies/Scrap
-@onready var fuel_label: Label = $Panel/HBox/Currencies/Fuel
-@onready var cores_label: Label = $Panel/HBox/Currencies/Cores
+@onready var sparks_label: Label = $Panel/HBox/Currencies/Sparks
+@onready var prisms_label: Label = $Panel/HBox/Currencies/Prisms
+@onready var crystals_label: Label = $Panel/HBox/Currencies/Crystals
 @onready var streak_label: Label = $Panel/HBox/Streak
 @onready var timer_label: Label = $Panel/HBox/Timer
 @onready var toast_label: Label = $Toast
@@ -15,7 +15,7 @@ func _ready() -> void:
 	Signals.player_healed.connect(func(_a): _refresh_hp())
 	CurrencyManager.currencies_changed.connect(_update_currencies)
 	CurrencyManager.currency_earned.connect(_on_currency_earned)
-	_update_currencies(CurrencyManager.scrap, CurrencyManager.fuel, CurrencyManager.cores)
+	_update_currencies(CurrencyManager.sparks, CurrencyManager.prisms, CurrencyManager.crystals)
 	_refresh_hp()
 
 
@@ -41,14 +41,15 @@ func _update_hp(_amount: int, hp_remaining: int) -> void:
 	hp_label.text = "%d / %d" % [hp_remaining, int(hp_bar.max_value)]
 
 
-func _update_currencies(scrap: int, fuel: int, cores: int) -> void:
-	scrap_label.text = "SCRAP %d" % scrap
-	fuel_label.text = "FUEL %d" % fuel
-	cores_label.text = "CORES %d" % cores
+func _update_currencies(s: int, p: int, c: int) -> void:
+	sparks_label.text = "✦ %d" % s
+	prisms_label.text = "◈ %d" % p
+	crystals_label.text = "❋ %d" % c
 
 
 func _on_currency_earned(type: String, amount: int, _pos: Vector2) -> void:
-	toast_label.text = "+%d %s" % [amount, type.to_upper()]
+	var icon := {"sparks": "✦", "prisms": "◈", "crystals": "❋"}.get(type, "+")
+	toast_label.text = "+%d %s %s" % [amount, icon, type.capitalize()]
 	toast_label.modulate.a = 1.0
 	var tween := create_tween()
-	tween.tween_property(toast_label, "modulate:a", 0.0, 1.2)
+	tween.tween_property(toast_label, "modulate:a", 0.0, 1.4)

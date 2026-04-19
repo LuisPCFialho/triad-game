@@ -14,13 +14,13 @@ var _charge_duration_left: float = 0.0
 
 func _ready() -> void:
 	super()
-	kind = "boss"
+	kind = "dark_keeper"
 	max_hp = 600
 	hp = max_hp
 	damage = 20
 	speed = 80.0
-	scrap_reward = 20
-	cores_reward = 10
+	sparks_reward = 20
+	crystals_reward = 10
 	score_value = 500
 	add_to_group("boss")
 
@@ -58,6 +58,7 @@ func _fire_ring() -> void:
 		b.global_position = global_position + d * 40.0
 		if b.has_method("setup"):
 			b.setup(d, 12)
+	ScreenShake.shake(0.3)
 
 
 func _start_charge() -> void:
@@ -69,8 +70,29 @@ func _start_charge() -> void:
 
 
 func _die() -> void:
+	ScreenShake.shake(0.8)
+	_spawn_death_burst()
 	super()
 	Signals.victory.emit()
+
+
+func _spawn_death_burst() -> void:
+	var p := CPUParticles2D.new()
+	get_tree().current_scene.add_child(p)
+	p.global_position = global_position
+	p.emitting = true
+	p.one_shot = true
+	p.explosiveness = 1.0
+	p.amount = 60
+	p.lifetime = 1.2
+	p.initial_velocity_min = 100.0
+	p.initial_velocity_max = 380.0
+	p.spread = 180.0
+	p.scale_amount_min = 4.0
+	p.scale_amount_max = 10.0
+	p.color = Color(0.7, 0.2, 1.0, 1.0)
+	var t := get_tree().create_timer(1.5)
+	t.timeout.connect(p.queue_free)
 
 
 func _on_hitbox_body_entered(body: Node) -> void:
