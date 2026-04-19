@@ -1,0 +1,69 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgameover0001"]
+
+[ext_resource type="Script" path="res://scenes/ui/GameOver.gd" id="1_script"]
+
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.07, 0.05, 0.08, 1)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Center"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Title" type="Label" parent="Center/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 64
+text = "SYSTEM DOWN"
+horizontal_alignment = 1
+
+[node name="Stats" type="Label" parent="Center/VBox"]
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Survived: --
+Kills: 0
+Score: 0"
+horizontal_alignment = 1
+
+[node name="SanctumButton" type="Button" parent="Center/VBox"]
+custom_minimum_size = Vector2(260, 48)
+layout_mode = 2
+text = "Enter Sanctum"
+
+[node name="RetryButton" type="Button" parent="Center/VBox"]
+custom_minimum_size = Vector2(260, 48)
+layout_mode = 2
+text = "Retry Run"
+
+[node name="MenuButton" type="Button" parent="Center/VBox"]
+custom_minimum_size = Vector2(260, 48)
+layout_mode = 2
+text = "Main Menu"
+
+[connection signal="pressed" from="Center/VBox/SanctumButton" to="." method="_on_sanctum_pressed"]
+[connection signal="pressed" from="Center/VBox/RetryButton" to="." method="_on_retry_pressed"]
+[connection signal="pressed" from="Center/VBox/MenuButton" to="." method="_on_menu_pressed"]

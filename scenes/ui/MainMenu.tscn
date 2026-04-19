@@ -18,7 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.1, 0.1, 0.18, 1)
+color = Color(0.07, 0.07, 0.12, 1)
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -35,14 +35,15 @@ alignment = 1
 
 [node name="Title" type="Label" parent="CenterContainer/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 72
-text = "PurgeRun"
+theme_override_colors/font_color = Color(0.4, 0.9, 0.9, 1)
+theme_override_font_sizes/font_size = 96
+text = "TRIAD"
 horizontal_alignment = 1
 
 [node name="Subtitle" type="Label" parent="CenterContainer/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "Survive the waves"
+text = "Scrap. Fuel. Cores. — survive the arena, unlock the tree."
 horizontal_alignment = 1
 
 [node name="Spacer" type="Control" parent="CenterContainer/VBox"]
@@ -50,14 +51,20 @@ custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 
 [node name="PlayButton" type="Button" parent="CenterContainer/VBox"]
-custom_minimum_size = Vector2(240, 48)
+custom_minimum_size = Vector2(260, 48)
 layout_mode = 2
-text = "Play"
+text = "Start Run"
+
+[node name="SanctumButton" type="Button" parent="CenterContainer/VBox"]
+custom_minimum_size = Vector2(260, 48)
+layout_mode = 2
+text = "Sanctum (Skill Trees)"
 
 [node name="QuitButton" type="Button" parent="CenterContainer/VBox"]
-custom_minimum_size = Vector2(240, 48)
+custom_minimum_size = Vector2(260, 48)
 layout_mode = 2
 text = "Quit"
 
 [connection signal="pressed" from="CenterContainer/VBox/PlayButton" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="CenterContainer/VBox/SanctumButton" to="." method="_on_sanctum_pressed"]
 [connection signal="pressed" from="CenterContainer/VBox/QuitButton" to="." method="_on_quit_pressed"]

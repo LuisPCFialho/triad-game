@@ -1,20 +1,28 @@
 class_name Player
 extends CharacterBody2D
 
-const MAX_HP := 100
+const BASE_MAX_HP := 100
+const BASE_SPEED := 300.0
+const BASE_SHOOT_INTERVAL := 0.25
+const BASE_BULLET_DAMAGE := 10
+const BASE_DASH_CD := 2.0
 
-@export var speed: float = 300.0
+var MAX_HP: int = BASE_MAX_HP
+
 @export var acceleration: float = 1800.0
 @export var friction: float = 1400.0
-@export var shoot_interval: float = 0.2
 @export var bullet_scene: PackedScene
-@export var bullet_damage: int = 10
 @export var dash_speed: float = 900.0
 @export var dash_duration: float = 0.18
-@export var dash_cooldown_time: float = 2.0
 @export var invuln_time: float = 0.5
 
-var hp: int = MAX_HP
+var speed: float = BASE_SPEED
+var shoot_interval: float = BASE_SHOOT_INTERVAL
+var bullet_damage: int = BASE_BULLET_DAMAGE
+var dash_cooldown_time: float = BASE_DASH_CD
+var lifesteal: int = 0
+
+var hp: int = BASE_MAX_HP
 var can_shoot: bool = true
 var can_dash: bool = true
 var is_dashing: bool = false
@@ -31,9 +39,26 @@ var dash_timer: float = 0.0
 
 func _ready() -> void:
 	add_to_group("player")
+	_apply_skills()
+	hp = MAX_HP
 	shoot_cooldown.wait_time = shoot_interval
 	dash_cooldown.wait_time = dash_cooldown_time
 	invuln_timer.wait_time = invuln_time
+	Signals.enemy_died.connect(_on_enemy_died)
+
+
+func _apply_skills() -> void:
+	MAX_HP = BASE_MAX_HP + int(SkillManager.get_modifier("max_hp"))
+	speed = BASE_SPEED * (1.0 + SkillManager.get_modifier("speed_pct"))
+	shoot_interval = BASE_SHOOT_INTERVAL / (1.0 + SkillManager.get_modifier("fire_rate"))
+	bullet_damage = int(BASE_BULLET_DAMAGE * (1.0 + SkillManager.get_modifier("dmg_pct")))
+	dash_cooldown_time = max(0.3, BASE_DASH_CD + SkillManager.get_modifier("dash_cd"))
+	lifesteal = int(SkillManager.get_modifier("lifesteal"))
+
+
+func _on_enemy_died(_pos: Vector2, _points: int) -> void:
+	if lifesteal > 0:
+		heal(lifesteal)
 
 
 func _physics_process(delta: float) -> void:

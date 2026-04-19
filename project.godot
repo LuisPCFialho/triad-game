@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="PurgeRun"
-config/description="Top-down shooter rogue-like. Survive the waves."
+config/name="TRIAD"
+config/description="Endless arena rogue-lite with 3 skill trees. Scrap. Fuel. Cores."
 run/main_scene="res://scenes/ui/MainMenu.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
@@ -21,6 +21,8 @@ config/version="0.1.0"
 
 Game="*res://autoload/Game.gd"
 Signals="*res://autoload/Signals.gd"
+CurrencyManager="*res://autoload/CurrencyManager.gd"
+SkillManager="*res://autoload/SkillManager.gd"
 
 [display]
 
